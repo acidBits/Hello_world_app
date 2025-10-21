@@ -6,10 +6,11 @@ genero1 = ["","norte","Sul","Leste","Oeste"]
 genero2 = ["","norte","Sul","Leste","Oeste"]
 genero3 = ["","norte","Sul","Leste","Oeste"]
 
-select1 = st.selectbox("Escolha uma Direção:",genero1)
-teste = st.selectbox("escolha",["", "1","2"])
+genero1 = st.selectbox("Escolha uma Direção:",genero1)
+genero2 = st.selectbox("escolha",["", "1","2"])
+genero3 = st.selectbox("",genero3)
 
 st.button("Pesquisar")
 st.write(
-    f"Voce escolheu a direção:{select1}"
+    f"Voce escolheu a direção:{genero1}"
 )
