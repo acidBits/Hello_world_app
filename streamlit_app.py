@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.title("Me Indique um Filme 🎥🎬")
-st.empty()
+st.divider()
 
 genero1 = ["","norte","Sul","Leste","Oeste"]
 genero2 = ["","norte","Sul","Leste","Oeste"]
