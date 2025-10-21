@@ -11,7 +11,7 @@ df = pd.read_csv(url)
 #vectorizer = TfidfVectorizer()
 #X = vectorizer.fit_transform(df['generos'])
 generos_agrupados = df.explode('generos')['generos'].unique()
-generos_unicos = sorted(set(g for lista in generos_agrupados for g in lista.split(', ')))
+#generos_unicos = sorted(set(g for lista in generos_agrupados for g in lista.split(', ')))
 
 
 st.title("Me Indique um Filme 🎬")
