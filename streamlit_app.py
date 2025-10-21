@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 url = "https://github.com/acidBits/Hello_world_app/blob/main/movies.csv"
-df = pd.read_csv()
+df = pd.read_csv(url)
 
 st.title("Me Indique um Filme 🎬")
 st.divider()
