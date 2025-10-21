@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 url = "https://github.com/acidBits/Hello_world_app/blob/main/movies.csv"
-df = pd.read_csv(url)
+#df = pd.read_csv(url)
 
 st.title("Me Indique um Filme 🎬")
 st.divider()
@@ -16,5 +16,5 @@ genero3 = st.selectbox("Genero-3:",genero)
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 if st.button("Pesquisar"):
-    st.write(f"A direção Indicada é: {df.head(5)}")
+    st.write()
 
