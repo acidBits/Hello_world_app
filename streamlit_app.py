@@ -25,5 +25,5 @@ genero3 = st.selectbox("Genero-3:",generos_unicos)
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 if st.button("Pesquisar"):
-    st.write()
+    st.write(df.head())
 
