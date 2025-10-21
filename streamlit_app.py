@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-url = "https://github.com/acidBits/Hello_world_app/blob/main/movies.csv"
-#df = pd.read_csv(url)
+url = "https://raw.githubusercontent.com/acidBits/Hello_world_app/refs/heads/main/movies.csv"
+df = pd.read_csv(url)
 
 st.title("Me Indique um Filme 🎬")
 st.divider()
