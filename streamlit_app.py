@@ -10,8 +10,12 @@ df = pd.read_csv(url)
 # Inicializando o vetorizador
 #vectorizer = TfidfVectorizer()
 #X = vectorizer.fit_transform(df['generos'])
-generos_agrupados = df.explode('generos')['generos'].unique()
-generos_unicos = sorted(set(g for lista in generos_agrupados for g in lista.split(', ')))
+# Tratando os gêneros: separando por vírgula e limpando espaços
+generos_series = df['generos'].dropna().apply(lambda x: [g.strip() for g in x.split(',')])
+
+# Achata a lista e extrai os únicos
+generos_unicos = sorted(set(g for sublist in generos_series for g in sublist))
+
 
 
 st.title("Me Indique um Filme 🎬")
