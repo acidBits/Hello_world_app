@@ -8,15 +8,16 @@ url = "https://raw.githubusercontent.com/acidBits/Hello_world_app/refs/heads/mai
 df = pd.read_csv(url)
 
 # Inicializando o vetorizador
-#vectorizer = TfidfVectorizer()
-#X = vectorizer.fit_transform(df['generos'])
+@st.cache_data
+vectorizer = TfidfVectorizer()
+X = vectorizer.fit_transform(df['generos'])
+
 # Tratando os gêneros: separando por vírgula e limpando espaços
 generos_series = df['generos'].dropna().apply(lambda x: [g.strip() for g in x.split(',')])
 
 # Achata a lista e extrai os únicos
 generos_unicos = sorted(set(g for sublist in generos_series for g in sublist))
 generos_unicos.insert(0,"")
-
 
 st.title("Me Indique um Filme 🎬")
 st.divider()
