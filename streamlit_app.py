@@ -15,7 +15,7 @@ generos_series = df['generos'].dropna().apply(lambda x: [g.strip() for g in x.sp
 
 # Achata a lista e extrai os únicos
 generos_unicos = sorted(set(g for sublist in generos_series for g in sublist))
-
+generos_unicos.insert(0,"")
 
 
 st.title("Me Indique um Filme 🎬")
