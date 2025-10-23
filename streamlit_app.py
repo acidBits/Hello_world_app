@@ -1,62 +1,54 @@
 import streamlit as st
 import pandas as pd
-import joblib
-import requests
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 # Carregando os dados
-url = "https://raw.githubusercontent.com/acidBits/Hello_world_app/refs/heads/main/movies.csv"
-df = pd.read_csv(url)
+@st.cache_data
+def carregar_dados():
+    url = "https://raw.githubusercontent.com/acidBits/Hello_world_app/main/movies.csv"
+    df = pd.read_csv(url)
+    df = df.dropna(subset=['generos', 'titulo'])  # Garante que não haja valores nulos
+    return df
 
-#carregando modelo
-url = "https://github.com/acidBits/Hello_world_app/blob/main/vectorizer_model.pkl"
-r = requests.get(url)
-X = joblib.load("vectorizer_model.pkl")
+df = carregar_dados()
 
-# Tratando os gêneros: separando por vírgula e limpando espaços
-generos_series = df['generos'].dropna().apply(lambda x: [g.strip() for g in x.split(',')])
-
-# Achata a lista e extrai os únicos
-generos_unicos = sorted(set(g for sublist in generos_series for g in sublist))
-generos_unicos.insert(0,"")
-
-
-#
+# Vetorizador
 vectorizer = TfidfVectorizer()
+X = vectorizer.fit_transform(df['generos'])
 
+# Lista de gêneros únicos
+generos_series = df['generos'].apply(lambda x: [g.strip() for g in x.split(',')])
+generos_unicos = sorted(set(g for sublist in generos_series for g in sublist))
+generos_unicos.insert(0, "")  # opção vazia
 
-def recomendar_por_genero(generos_agrupados, df, vectorizer, X):
-    # Vetor do gênero informado pelo usuário
-    genero_vetor = vectorizer.transform([generos_agrupados])
+# Interface
+st.title("🎬 Me Indique um Filme")
+st.write("Escolha até 3 gêneros para receber recomendações:")
 
-    # Calculando similaridade entre o input e os filmes
-    similaridade = cosine_similarity(genero_vetor, X)[0]
+col1, col2, col3 = st.columns(3)
+with col1:
+    genero1 = st.selectbox("Gênero 1", generos_unicos, key="g1")
+with col2:
+    genero2 = st.selectbox("Gênero 2", generos_unicos, key="g2")
+with col3:
+    genero3 = st.selectbox("Gênero 3", generos_unicos, key="g3")
 
-    # Ordenando os filmes com maior similaridade
-    df['similaridade'] = similaridade
-    recomendacoes = df.sort_values(by=['similaridade','pontuacao'], ascending=False).head()
-   
-    return recomendacoes[['filme','pontuacao','ano', 'generos', 'similaridade']].reset_index(drop=True)
+# Gêneros selecionados
+generos_escolhidos = [g for g in [genero1, genero2, genero3] if g]
+entrada_usuario = ", ".join(generos_escolhidos)
 
+# Recomendar filmes
+if st.button("🔍 Pesquisar"):
+    if not entrada_usuario:
+        st.warning("Por favor, selecione pelo menos um gênero.")
+    else:
+        entrada_vectorizada = vectorizer.transform([entrada_usuario])
+        similaridades = cosine_similarity(entrada_vectorizada, X).flatten()
+        indices_recomendados = similaridades.argsort()[::-1][:5]
 
-def ao_clicar():
-    generos_agrupados = f"{genero1},{genero2},{genero3}"
-    recomendacoes = recomendar_por_genero(generos_agrupados, df, vectorizer, X)
-
-st.title("Me Indique um Filme 🎬")
-st.divider()
-
-genero1 = st.selectbox("Genero-1:",generos_unicos)
-genero2 = st.selectbox("Genero-2:",generos_unicos)
-genero3 = st.selectbox("Genero-3:",generos_unicos)
-
-generos_agrupados = f"{genero1},{genero2},{genero3}"
-
-
-st.markdown("<br><br>", unsafe_allow_html=True)
-if st.button("Pesquisar"):
-    ao_clicar()
-    st.write(recomendacoes)
-    
-
+        st.subheader("🎥 Recomendações de Filmes:")
+        for idx in indices_recomendados:
+            titulo = df.iloc[idx]['titulo']
+            generos = df.iloc[idx]['generos']
+            st.markdown(f"**{titulo}** — _{generos}_")
