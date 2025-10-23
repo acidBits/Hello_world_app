@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
-import pandas as pd
+import requests
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -9,9 +9,10 @@ from sklearn.metrics.pairwise import cosine_similarity
 url = "https://raw.githubusercontent.com/acidBits/Hello_world_app/refs/heads/main/movies.csv"
 df = pd.read_csv(url)
 
-# Inicializando o vetorizador
-vectorizer = TfidfVectorizer()
-#X = vectorizer.fit_transform(df['generos'])
+#carregando modelo
+url = "https://github.com/acidBits/Hello_world_app/blob/main/vectorizer_model.pkl"
+r = requests.get(url)
+X = joblib.load("vectorizer_model.pkl")
 
 # Tratando os gêneros: separando por vírgula e limpando espaços
 generos_series = df['generos'].dropna().apply(lambda x: [g.strip() for g in x.split(',')])
