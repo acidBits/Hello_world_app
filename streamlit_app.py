@@ -40,15 +40,4 @@ entrada_usuario = ", ".join(generos_escolhidos)
 
 # Recomendar filmes
 if st.button("🔍 Pesquisar"):
-    if not entrada_usuario:
-        st.warning("Por favor, selecione pelo menos um gênero.")
-    else:
-        entrada_vectorizada = vectorizer.transform([entrada_usuario])
-        similaridades = cosine_similarity(entrada_vectorizada, X).flatten()
-        indices_recomendados = similaridades.argsort()[::-1][:5]
 
-        st.subheader("🎥 Recomendações de Filmes:")
-        for idx in indices_recomendados:
-            titulo = df.iloc[idx]['titulo']
-            generos = df.iloc[idx]['generos']
-            st.markdown(f"**{titulo}** — _{generos}_")
