@@ -13,9 +13,6 @@ def carregar_dados():
 
 df = carregar_dados()
 
-# Vetorizador
-vectorizer = TfidfVectorizer()
-X = vectorizer.fit_transform(df['generos'])
 
 # Lista de gêneros únicos
 generos_series = df['generos'].apply(lambda x: [g.strip() for g in x.split(',')])
