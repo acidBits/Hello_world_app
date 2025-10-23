@@ -37,4 +37,5 @@ entrada_usuario = ", ".join(generos_escolhidos)
 
 # Recomendar filmes
 if st.button("🔍 Pesquisar"):
+    st.write("")
 
