@@ -41,8 +41,8 @@ def recomendar_por_genero(generos_agrupados, df, vectorizer, X):
 
 
 def ao_clicar():
-generos_agrupados = f"{genero1},{genero2},{genero3}"
-recomendacoes = recomendar_por_genero(generos_agrupados, df, vectorizer, X)
+    generos_agrupados = f"{genero1},{genero2},{genero3}"
+    recomendacoes = recomendar_por_genero(generos_agrupados, df, vectorizer, X)
 
 st.title("Me Indique um Filme 🎬")
 st.divider()
