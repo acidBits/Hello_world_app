@@ -28,7 +28,7 @@ vectorizer = TfidfVectorizer()
 
 def recomendar_por_genero(generos_agrupados, df, vectorizer, X):
     # Vetor do gênero informado pelo usuário
-    genero_vetor = vectorizer.transform([generos_usuario])
+    genero_vetor = vectorizer.transform([generos_agrupados])
 
     # Calculando similaridade entre o input e os filmes
     similaridade = cosine_similarity(genero_vetor, X)[0]
